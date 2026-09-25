@@ -1,0 +1,300 @@
+ :root {
+      --bg: #DDE3E8;
+      --panel: #F4F6F8;
+      --ink: #17202A;
+      --mute: #5A6773;
+      --line: #B9C3CC;
+      --acc: #0B6E8A;
+      --accfg: #fff;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #12171C;
+        --panel: #1B2229;
+        --ink: #E6ECF1;
+        --mute: #93A1AD;
+        --line: #33404B;
+        --acc: #4CC3E0;
+        --accfg: #0B1A20
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #12171C;
+      --panel: #1B2229;
+      --ink: #E6ECF1;
+      --mute: #93A1AD;
+      --line: #33404B;
+      --acc: #4CC3E0;
+      --accfg: #0B1A20
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 16px/1.5 "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 20px 40px
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.05;
+      margin: 0 0 6px
+    }
+
+    .sub {
+      color: var(--mute);
+      margin: 0 0 22px;
+      max-width: 56ch
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 20px;
+      align-items: start
+    }
+
+    @media (max-width:860px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .stagebox {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center
+    }
+
+    .drop {
+      width: 100%;
+      min-height: 260px;
+      border: 2px dashed var(--line);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 20px;
+      transition: border-color .15s, background .15s
+    }
+
+    .drop.over,
+    .drop:focus-visible {
+      border-color: var(--acc);
+      background: color-mix(in srgb, var(--acc) 8%, transparent);
+      outline: none
+    }
+
+    .drop b {
+      font-size: 20px
+    }
+
+    .drop span {
+      color: var(--mute);
+      font-size: 14px
+    }
+
+    .stage {
+      position: relative;
+      width: min(100%, calc(68vh * var(--r, 1.5)));
+      aspect-ratio: var(--r, 1.5);
+      background: repeating-conic-gradient(var(--line) 0 25%, transparent 0 50%) 0 0/16px 16px;
+      border-radius: 6px;
+      overflow: hidden;
+      --p: 50%;
+      touch-action: pan-y
+    }
+
+    .stage canvas,
+    .stage img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block
+    }
+
+    .stage img {
+      clip-path: inset(0 calc(100% - var(--p)) 0 0);
+      image-rendering: auto
+    }
+
+    .bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--p);
+      width: 2px;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .35);
+      pointer-events: none
+    }
+
+    .bar::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 26px;
+      height: 26px;
+      margin: -13px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .35)
+    }
+
+    .tag {
+      position: absolute;
+      top: 8px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, .6);
+      color: #fff;
+      font-size: 13px;
+      pointer-events: none
+    }
+
+    .tag.l {
+      left: 8px
+    }
+
+    .tag.r {
+      right: 8px
+    }
+
+    .cmp {
+      width: min(100%, 520px);
+      margin: 12px 0 0;
+      accent-color: var(--acc)
+    }
+
+    .info {
+      margin: 8px 0 0;
+      color: var(--mute);
+      font-size: 14px;
+      min-height: 21px;
+      text-align: center
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px
+    }
+
+    .ctl {
+      margin-bottom: 16px
+    }
+
+    .ctl label {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px
+    }
+
+    .ctl label output {
+      color: var(--mute);
+      font-weight: 400
+    }
+
+    .ctl input[type=range] {
+      width: 100%;
+      accent-color: var(--acc)
+    }
+
+    .seg {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px
+    }
+
+    .seg button {
+      padding: 8px 0;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      border-radius: 6px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .seg button[aria-pressed=true] {
+      background: var(--acc);
+      color: var(--accfg);
+      border-color: var(--acc)
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--acc);
+      background: var(--acc);
+      color: var(--accfg);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--line)
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--acc);
+      outline-offset: 2px
+    }
+
+    .note {
+      font-size: 13px;
+      color: var(--mute);
+      margin: 12px 0 0
+    }
